@@ -7,24 +7,20 @@ project:
   language: "Verilog"
   clock_hz: 150000000
   tiles: "1x1"
-  top_module: "user_proj_systolic"  # Your main Verilog module name
-  wokwi_id: 0  # Simulator ID (0 = none yet; update later if you make a Wokwi demo)
+  top_module: "tt_um_systolic_accel"  # TT-required prefix + your design name
+  wokwi_id: 0  # Placeholder; update with Wokwi sim ID later if desired
 
 pinout:
-  # Clock and reset
+  # Clock and reset (mandatory for digital designs)
   - {name: clk,    type: clk,   direction: input}
-  - {name: rstn,   type: rstn,  direction: input}
+  - {name: rst_n,  type: rst_n, direction: input}  # TT standard: rst_n (active low)
   
-  # Inputs: Activations (8x8-bit bus)
-  - {name: act_in, type: anain, direction: input, width: 64}
+  # Simplified inputs/outputs for TT tile (buses serialized to fit ~38 pins)
+  - {name: act_in,      type: in,   direction: input,  width: 8}  # 8 activations (8-bit bus)
+  - {name: wgt_in,      type: in,   direction: input,  width: 8}  # Weights streamed (8-bit bus)
+  - {name: psum_out,    type: out,  direction: output, width: 8}  # 8 partial sums (8-bit bus)
   
-  # Inputs: Weights (64x8-bit bus)
-  - {name: wgt_in, type: anain, direction: input, width: 512}
-  
-  # Outputs: Partial sums (8x32-bit bus)
-  - {name: psum_out, type: anaout, direction: output, width: 256}
-  
-  # Control
-  - {name: load_weights, type: anain, direction: input}
-  - {name: compute_go,   type: anain, direction: input}
-  - {name: compute_done, type: anaout, direction: output}
+  # Control signals (minimal for systolic flow)
+  - {name: load_weights, type: in,   direction: input}
+  - {name: compute_go,   type: in,   direction: input}
+  - {name: compute_done, type: out,  direction: output}
