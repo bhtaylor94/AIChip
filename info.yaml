@@ -7,22 +7,24 @@ project:
   language: "Verilog"
   clock_hz: 150000000
   tiles: "1x1"
+  top_module: "user_proj_systolic"  # Your main Verilog module name
+  wokwi_id: 0  # Simulator ID (0 = none yet; update later if you make a Wokwi demo)
 
 pinout:
-  # Clock and reset (standard for digital designs)
+  # Clock and reset
   - {name: clk,    type: clk,   direction: input}
   - {name: rstn,   type: rstn,  direction: input}
   
-  # Inputs: 8 activations (8-bit each, but pinout shows buses)
-  - {name: act_in, type: anain, direction: input, width: 8}  # Bus for activations
+  # Inputs: Activations (8x8-bit bus)
+  - {name: act_in, type: anain, direction: input, width: 64}
   
-  # Inputs: 64 weights (8x8, 8-bit each — bus for simplicity)
-  - {name: wgt_in, type: anain, direction: input, width: 64}  # Bus for weights
+  # Inputs: Weights (64x8-bit bus)
+  - {name: wgt_in, type: anain, direction: input, width: 512}
   
-  # Outputs: 8 partial sums (32-bit accumulators — bus)
-  - {name: psum_out, type: anaout, direction: output, width: 8}  # Bus for results
+  # Outputs: Partial sums (8x32-bit bus)
+  - {name: psum_out, type: anaout, direction: output, width: 256}
   
-  # Control signals
+  # Control
   - {name: load_weights, type: anain, direction: input}
   - {name: compute_go,   type: anain, direction: input}
   - {name: compute_done, type: anaout, direction: output}
