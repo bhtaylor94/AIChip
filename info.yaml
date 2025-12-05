@@ -1,0 +1,10 @@
+# Tiny Tapeout project information page
+project:
+  title:        "8×8 INT8 Systolic Array Accelerator"
+  author:       "Bradley Taylor"
+  description:  "8×8 systolic array neural network accelerator – 64 MACs, 19.2 GFLOPS @150MHz INT8 for tinyML / edge inference"
+  language:     "Verilog"
+  clock_hz:     150000000
+
+  # How many tiles your design occupies? (8×8 systolic fits in 1 tile)
+  tiles: "1x1"
